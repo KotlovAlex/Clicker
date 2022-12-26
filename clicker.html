@@ -25,6 +25,7 @@
             <div class="button">Click</div>
             <!-- <div class="info">0</div> -->
             <div class="score">Score: 0</div>
+            <div class="sum">Sum: 0</div>
             <div class="main">
                 <div class="field">
                     <div class="block"></div>
@@ -80,6 +81,8 @@
     </div>
 
     <script>
+        // GET ITEMS FROM HTML
+        let sum = document.querySelector('.sum');
         let but = document.querySelector('.button');
         let load = document.querySelector('.loading');
         let scor = document.querySelector('.score');
@@ -90,17 +93,25 @@
         let spdBt = document.querySelector('.spdBt');
         let numBt = document.querySelector('.numBt');
         let blocks = document.querySelectorAll('.block');
+
+        //INIT SOME VARIABLES
         let fieldblock = [];
         let arr = [];
-        let score = +localStorage.getItem('score') || 0;
-        scor.textContent = `Score: ${numToRead(score)}`;
-        let time = +localStorage.getItem('time') || 70;
         let a = [];
         let b = [];
+
+        //GET ITEMS FROM LOCALSTORAGE
+        let score = +localStorage.getItem('score') || 0;
+        let summ = +localStorage.getItem('sum') || 0
+        let time = +localStorage.getItem('time') || 70;
         let cost1 = +localStorage.getItem('cost1') || 4500;
         let cost2 = +localStorage.getItem('cost2') || 4500;
         let currNum = +localStorage.getItem('currNum') || 1;
         let state = +localStorage.getItem('state') || 0;
+
+        //SET STARTS STATE TO VARIABLES
+        scor.textContent = `Score: ${numToRead(score)}`;
+        sum.textContent = `Sum: ${numToRead(summ)}`;
         curNum.textContent = numToRead(currNum);
         numUpdCost.textContent = numToRead(cost1);
         curSpeed.textContent = time/10 + 's'
@@ -114,6 +125,7 @@
             [0,0,0,0],
             [0,0,0,0],
         ];
+
         if (localStorage.getItem('field')){
             let help = localStorage.getItem('field').split(',');
             for(let i = 0; i<6;i++){
@@ -189,13 +201,18 @@
             }
         }
 
-        function scoreupdate(score) {
+        function currentSum() {
+            res = 0
             for (let i = 0; i<6 ; i++) {
                 for (let j = 0; j<4; j++) {
-                    score+=+field[i][j];
+                    res+=+field[i][j];
                 }
             }
-            return score
+            return +res
+        }
+
+        function scoreupdate(score, sum) {
+            return score + sum
         }
 
         numBt.onclick = function () {
@@ -325,10 +342,12 @@
             localStorage.setItem('cost1',cost1);
             localStorage.setItem('cost2',cost2);
             localStorage.setItem('time',time);
+            localStorage.setItem('sum', currentSum());
             
         },time);
         setInterval(() => {
-            score = scoreupdate(score);
+            score = scoreupdate(score, currentSum());
+            sum.textContent = `Sum: ${numToRead(currentSum())}`;
             scor.textContent = `Score: ${numToRead(score)}`;
         },1000)
     </script>
