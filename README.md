@@ -15,4 +15,4 @@ Results of playing save in a your cockies.
 If your cockies disenabled, you will start new game every reload of the page.
 ____________________________
 Game Experience:
-![alt text](src/clicker.png)
+![alt text](src/clicker2.png)

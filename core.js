@@ -17,6 +17,15 @@ let arr = [];
 let a = [];
 let b = [];
 
+//COLORS
+let colors = {
+    1: 'FD8A8A', 2: 'F1F7B5', 3: 'A8D1D1', 4: '9EA1D4',
+    5: '243763', 6: 'FF6E31', 7: 'FFEBB7', 8: 'AD8E70',
+    9: 'C0EEE4', 10: 'F8F988', 11: 'FFCAC8', 12: 'FF9E9E',
+    13: 'FFFBEB', 14: '495579', 15: '263159', 16: '251749',
+    17: '00FFF6', 18: '00E7FF', 19: '009EFF', 20: '0014FF',
+}
+
 //GET ITEMS FROM LOCALSTORAGE
 let score = +localStorage.getItem('score') || 0;
 let summ = +localStorage.getItem('sum') || 0
@@ -169,6 +178,16 @@ function buying(score,cost) {
     else return false;
 }
 
+function getPow(int) {
+    res = 0
+    temp = int
+    while (temp > 1) {
+        temp /= 2
+        res += 1
+    }
+    return res
+}
+
 function draw () {
     for (let i = 0; i<6 ; i++) {
         for (let j = 0; j<4; j++) {
@@ -176,18 +195,23 @@ function draw () {
             if (+field[i][j]>999999999){
                 fieldblock[i][j].textContent = (field[i][j]/1000000).toFixed(0) + 't';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
+                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20]}`
             }else if (+field[i][j]>999999) {
                 fieldblock[i][j].textContent = (field[i][j]/1000000).toFixed(0) + 'm';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
+                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
             }else if (+field[i][j]>999){
                 fieldblock[i][j].textContent = (field[i][j]/1000).toFixed(0) + 'k';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
+                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
             }else{
                 fieldblock[i][j].textContent = field[i][j];
                 fieldblock[i][j].style.fontSize = 1+'em';
+                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
             }  
             else{
-                fieldblock[i][j].textContent = '' 
+                fieldblock[i][j].textContent = ''
+                fieldblock[i][j].style.backgroundColor = `#fff`
             }
         }
     }
@@ -261,9 +285,9 @@ setInterval(() => {
     localStorage.setItem('time',time);
     localStorage.setItem('sum', currentSum());
     
-},0);
+},time);
 setInterval(() => {
     score = scoreupdate(score, currentSum());
     sum.textContent = `Sum: ${numToRead(currentSum())}`;
     scor.textContent = `Score: ${numToRead(score)}`;
-},0)
+},1000)
