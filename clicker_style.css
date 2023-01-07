@@ -1,3 +1,5 @@
+@import 'colors.css';
+
 * {
     margin: 0;
 }
@@ -168,10 +170,6 @@
 .footer .logo {
     /* grid-area: footlogo; */
     height: 40px;   
-}
-
-.active {
-    background-color: #50adce;
 }
 
 @media screen and (max-width: 320px) {

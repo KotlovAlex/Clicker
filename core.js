@@ -52,6 +52,7 @@ let field = [
     [0,0,0,0],
 ];
 
+console.log(localStorage.getItem('field'));
 if (localStorage.getItem('field')){
     let help = localStorage.getItem('field').split(',');
     for(let i = 0; i<6;i++){
@@ -188,6 +189,16 @@ function getPow(int) {
     return res
 }
 
+function removeAllColorsClasses (node) {
+    arr = node.classList.value.split(' ')
+    for (c in arr) {
+        if (arr[c].includes('color')) {
+            console.log('true');
+            node.classList.remove(arr[c])
+        }
+    }
+}
+
 function draw () {
     for (let i = 0; i<6 ; i++) {
         for (let j = 0; j<4; j++) {
@@ -195,23 +206,23 @@ function draw () {
             if (+field[i][j]>999999999){
                 fieldblock[i][j].textContent = (field[i][j]/1000000).toFixed(0) + 't';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
-                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20]}`
+                fieldblock[i][j].classList.add(`color${getPow(field[i][j])%20+1}`)
             }else if (+field[i][j]>999999) {
                 fieldblock[i][j].textContent = (field[i][j]/1000000).toFixed(0) + 'm';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
-                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
+                fieldblock[i][j].classList.add(`color${getPow(field[i][j])%20+1}`)
             }else if (+field[i][j]>999){
                 fieldblock[i][j].textContent = (field[i][j]/1000).toFixed(0) + 'k';
                 fieldblock[i][j].style.fontSize = 0.75+'em';
-                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
+                fieldblock[i][j].classList.add(`color${getPow(field[i][j])%20+1}`)
             }else{
                 fieldblock[i][j].textContent = field[i][j];
                 fieldblock[i][j].style.fontSize = 1+'em';
-                fieldblock[i][j].style.backgroundColor = `#${colors[getPow(field[i][j])%20+1]}`
+                fieldblock[i][j].classList.add(`color${getPow(field[i][j])%20+1}`)
             }  
             else{
                 fieldblock[i][j].textContent = ''
-                fieldblock[i][j].style.backgroundColor = `#fff`
+                fieldblock[i][j].classList.add('colorW')
             }
         }
     }
